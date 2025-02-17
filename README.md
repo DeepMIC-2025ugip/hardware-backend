@@ -11,3 +11,9 @@ uv run hello.py
 ```sh
 uv add numpy
 ```
+
+## ローカルでのテスト
+
+```sh
+uv run uvicorn main:app --reload
+
