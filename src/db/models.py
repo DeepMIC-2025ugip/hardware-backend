@@ -1,7 +1,7 @@
 import uuid
-from datetime import datetime, timezone, date
+from datetime import date, datetime, timezone
 
-from sqlalchemy import Boolean, Column, DateTime, String, Text, Date
+from sqlalchemy import Boolean, Column, Date, DateTime, String, Text
 from sqlalchemy.dialects.postgresql import ARRAY, JSON, UUID
 
 from database import Base
@@ -16,7 +16,9 @@ class Conversation(Base):
     )  # AIの応答(True) or ユーザーの質問(False)
     content = Column(String, nullable=False)
     visible = Column(Boolean, default=True)  # 親に見せるかどうか
-    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    timestamp = Column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
 
 
 class Analysis(Base):

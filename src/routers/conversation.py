@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,6 +21,13 @@ async def create_conversation(
 @conversation_router.get("/", response_model=list[ConversationResponse])
 async def get_conversations(db: AsyncSession = Depends(get_db)):
     return await crud.get_all_conversations(db)
+
+
+@conversation_router.get("/range", response_model=list[ConversationResponse])
+async def get_conversations_by_timestamp_range(
+    start: datetime, end: datetime, db: AsyncSession = Depends(get_db)
+):
+    return await crud.get_conversations_by_timestamp_range(db, start, end)
 
 
 @conversation_router.delete("/{conversation_id}")

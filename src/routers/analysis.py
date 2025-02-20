@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -18,6 +19,13 @@ async def create_analysis(analysis: AnalysisCreate, db: AsyncSession = Depends(g
 @analysis_router.get("/", response_model=list[AnalysisResponse])
 async def get_analyses(db: AsyncSession = Depends(get_db)):
     return await crud.get_all_analyses(db)
+
+
+@analysis_router.get("/range", response_model=list[AnalysisResponse])
+async def get_analyses_by_date_range(
+    start: date, end: date, db: AsyncSession = Depends(get_db)
+):
+    return await crud.get_analyses_by_date_range(db, start, end)
 
 
 @analysis_router.delete("/{analysis_id}")

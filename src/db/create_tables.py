@@ -1,10 +1,10 @@
 import asyncio
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
 
 from db.database import engine
-from db.models import Conversation, Analysis
-
+from db.models import Analysis, Conversation
 
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 

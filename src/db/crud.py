@@ -1,7 +1,9 @@
 import uuid
+from datetime import date, datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.sql import and_
 
 from db.models import Analysis, Conversation
 from db.schemas import AnalysisCreate, ConversationCreate
@@ -33,6 +35,18 @@ async def delete_conversation(db: AsyncSession, conversation_id: uuid.UUID):
     return conversation
 
 
+async def get_conversations_by_timestamp_range(
+    db: AsyncSession, start: datetime, end: datetime
+):
+    """指定された年月日時分秒の範囲内で会話データを取得"""
+    result = await db.execute(
+        select(Conversation).where(
+            and_(Conversation.timestamp >= start, Conversation.timestamp <= end)
+        )
+    )
+    return result.scalars().all()
+
+
 async def create_analysis(db: AsyncSession, analysis: AnalysisCreate):
     new_analysis = Analysis(
         id=uuid.uuid4(),
@@ -57,3 +71,11 @@ async def delete_analysis(db: AsyncSession, analysis_id: uuid.UUID):
         await db.delete(analysis)
         await db.commit()
     return analysis
+
+
+async def get_analyses_by_date_range(db: AsyncSession, start: date, end: date):
+    """指定された年月日の範囲内で分析データを取得"""
+    result = await db.execute(
+        select(Analysis).where(and_(Analysis.date >= start, Analysis.date <= end))
+    )
+    return result.scalars().all()
