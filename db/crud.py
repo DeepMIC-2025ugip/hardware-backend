@@ -1,31 +1,59 @@
+import uuid
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
-from db.models import User
-from db.schemas import UserCreate
+from db.models import Analysis, Conversation
+from db.schemas import AnalysisCreate, ConversationCreate
 
 
-async def create_user(db: AsyncSession, user: UserCreate):
-    new_user = User(name=user.name, email=user.email)
-    db.add(new_user)
+async def create_conversation(db: AsyncSession, conversation: ConversationCreate):
+    new_conversation = Conversation(
+        id=uuid.uuid4(),
+        from_system=conversation.from_system,
+        content=conversation.content,
+        visible=conversation.visible,
+    )
+    db.add(new_conversation)
     await db.commit()
-    await db.refresh(new_user)
-    return new_user
+    await db.refresh(new_conversation)
+    return new_conversation
 
 
-async def get_users(db: AsyncSession):
-    result = await db.execute(select(User))
+async def get_all_conversations(db: AsyncSession):
+    result = await db.execute(select(Conversation))
     return result.scalars().all()
 
 
-async def get_user_by_id(db: AsyncSession, user_id: int):
-    result = await db.execute(select(User).where(User.id == user_id))
-    return result.scalar_one_or_none()
-
-
-async def delete_user(db: AsyncSession, user_id: int):
-    user = await get_user_by_id(db, user_id)
-    if user:
-        await db.delete(user)
+async def delete_conversation(db: AsyncSession, conversation_id: uuid.UUID):
+    conversation = await db.get(Conversation, conversation_id)
+    if conversation:
+        await db.delete(conversation)
         await db.commit()
-    return user
+    return conversation
+
+
+async def create_analysis(db: AsyncSession, analysis: AnalysisCreate):
+    new_analysis = Analysis(
+        id=uuid.uuid4(),
+        report=analysis.report,
+        keyword=analysis.keyword,
+        feelings=analysis.feelings,
+    )
+    db.add(new_analysis)
+    await db.commit()
+    await db.refresh(new_analysis)
+    return new_analysis
+
+
+async def get_all_analyses(db: AsyncSession):
+    result = await db.execute(select(Analysis))
+    return result.scalars().all()
+
+
+async def delete_analysis(db: AsyncSession, analysis_id: uuid.UUID):
+    analysis = await db.get(Analysis, analysis_id)
+    if analysis:
+        await db.delete(analysis)
+        await db.commit()
+    return analysis
