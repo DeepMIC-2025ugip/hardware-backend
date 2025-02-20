@@ -9,4 +9,4 @@ RUN uv pip install --system --no-cache-dir --requirements pyproject.toml
 
 COPY . .
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["PYTHONPATH=src", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]

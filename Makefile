@@ -21,3 +21,6 @@ fmt:
 
 test:
 	uv run pytest
+
+run:
+	./python

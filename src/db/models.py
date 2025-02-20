@@ -1,7 +1,7 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
-from sqlalchemy import Boolean, Column, DateTime, String, Text
+from sqlalchemy import Boolean, Column, Date, DateTime, String, Text
 from sqlalchemy.dialects.postgresql import ARRAY, JSON, UUID
 
 from database import Base
@@ -16,7 +16,9 @@ class Conversation(Base):
     )  # AIの応答(True) or ユーザーの質問(False)
     content = Column(String, nullable=False)
     visible = Column(Boolean, default=True)  # 親に見せるかどうか
-    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    timestamp = Column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
 
 
 class Analysis(Base):
@@ -26,4 +28,4 @@ class Analysis(Base):
     report = Column(Text, nullable=False)  # 1日の会話からのAI分析レポート
     keyword = Column(ARRAY(String), nullable=False)  # 1日の会話で出たキーワードのリスト
     feelings = Column(JSON, nullable=False)  # 喜怒哀楽の感情スコア (dict[str, int])
-    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)
