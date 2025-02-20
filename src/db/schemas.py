@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Dict, List
 
 from pydantic import UUID4, BaseModel
@@ -26,7 +26,7 @@ class AnalysisCreate(BaseModel):
 
 class AnalysisResponse(AnalysisCreate):
     id: UUID4
-    timestamp: datetime
+    date: date
 
     class Config:
         orm_mode = True
