@@ -16,6 +16,7 @@ dependencies = [
     "isort>=6.0.0",
     "numpy>=2.2.3",
     "psycopg2-binary>=2.9.10",
+    "pydantic-settings>=2.7.1",
     "pytest>=8.3.4",
     "python-dotenv>=1.0.1",
     "sqlalchemy>=2.0.38",
