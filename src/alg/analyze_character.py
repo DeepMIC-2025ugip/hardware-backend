@@ -1,4 +1,5 @@
 import asyncio
+from typing import Union
 
 from alg.format_conversation import format_all_conversation
 from alg.prompt.analyze_character_prompt import SYSTEM_PROMPT, USER_PROMPT
@@ -10,12 +11,15 @@ from schema.character import CharacterModel
 from utils.openai_call import llm_response_schema
 
 
-async def analyze_character() -> CharacterCreate:
+async def analyze_character() -> Union[CharacterCreate, None]:
     """過去の全会話から性格を分析してDBに追加する"""
 
     async for db in get_db():
         conversations: list[Conversation] = await get_all_conversations(db)
         break
+
+    if not conversations:
+        return None
 
     conversation_str = format_all_conversation(conversations)
 

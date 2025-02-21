@@ -24,7 +24,7 @@ async def get_characters(db: AsyncSession = Depends(get_db)):
 
 
 @character_router.get("/latest", response_model=CharacterResponse)
-async def get_character(db: AsyncSession = Depends(get_db)):
+async def get_latest_character(db: AsyncSession = Depends(get_db)):
     return await crud.get_latest_character(db)
 
 

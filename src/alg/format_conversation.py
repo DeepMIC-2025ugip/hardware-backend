@@ -1,9 +1,9 @@
 from db.models import Conversation
 
 
-def conversation_str(conversation: Conversation) -> str:
-    speaker = "AI" if conversation.from_system else "Child"
-    content = conversation.content
+def format_chat(chat: Conversation) -> str:
+    speaker = "AI" if chat.from_system else "Child"
+    content = chat.content
     return f"{speaker}: {content}\n"
 
 
@@ -12,7 +12,7 @@ def format_conversation(conversations: list[Conversation]) -> str:
     conversation_str = ""
     for chat in conversations:
         if chat.visible == True:
-            conversation_str += conversation_str(chat)
+            conversation_str += format_chat(chat)
     return conversation_str
 
 
@@ -26,6 +26,6 @@ def format_all_conversation(conversations: list[Conversation]) -> str:
             all_conversation_str += f"Date: {conversation_date}\n"
 
         if chat.visible == True:
-            all_conversation_str += conversation_str(chat)
+            all_conversation_str += format_chat(chat)
 
     return all_conversation_str

@@ -17,7 +17,7 @@ async def create_analysis(analysis: AnalysisCreate, db: AsyncSession = Depends(g
     return await crud.create_analysis(db, analysis)
 
 
-@analysis_router.get("all", response_model=list[AnalysisResponse])
+@analysis_router.get("/all", response_model=list[AnalysisResponse])
 async def get_analyses(db: AsyncSession = Depends(get_db)):
     return await crud.get_all_analyses(db)
 

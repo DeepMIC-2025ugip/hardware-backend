@@ -1,5 +1,6 @@
 import asyncio
 from datetime import date, datetime
+from typing import Union
 
 from alg.format_conversation import format_conversation
 from alg.prompt.analyze_day_prompt import SYSTEM_PROMPT, USER_PROMPT
@@ -12,7 +13,7 @@ from utils.get_day_timestamp_start_n_end import get_day_timestamp_start_n_end
 from utils.openai_call import llm_response_schema
 
 
-async def analyze_day(day: date = datetime.now().date()) -> Analysis:
+async def analyze_day(day: date = datetime.now().date()) -> Union[Analysis, None]:
     """今日のレポートを作成してDBに追加する"""
     start_timestamp, end_timestamp = get_day_timestamp_start_n_end(day)
 
@@ -21,6 +22,9 @@ async def analyze_day(day: date = datetime.now().date()) -> Analysis:
             db, start_timestamp, end_timestamp
         )
         break
+
+    if not conversations:
+        return None
 
     conversation_str = format_conversation(conversations)
 
