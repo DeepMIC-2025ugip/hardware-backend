@@ -18,7 +18,7 @@ async def create_conversation(
     return await crud.create_conversation(db, conversation)
 
 
-@conversation_router.get("/", response_model=list[ConversationResponse])
+@conversation_router.get("/all", response_model=list[ConversationResponse])
 async def get_conversations(db: AsyncSession = Depends(get_db)):
     return await crud.get_all_conversations(db)
 
