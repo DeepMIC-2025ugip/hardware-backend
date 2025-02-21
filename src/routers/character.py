@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import db.crud as crud
+from alg.analyze_character import analyze_character
 from db.database import get_db
 from db.schemas import CharacterCreate, CharacterResponse
 
@@ -30,3 +31,8 @@ async def get_character(db: AsyncSession = Depends(get_db)):
 @character_router.delete("/{character_id}")
 async def delete_character(character_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
     return await crud.delete_character(db, character_id)
+
+
+@character_router.get("/analyze", response_model=CharacterResponse)
+async def analyze_character():
+    return await analyze_character()
