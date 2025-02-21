@@ -4,7 +4,7 @@ from datetime import date, datetime, timezone
 from sqlalchemy import Boolean, Column, Date, DateTime, String, Text
 from sqlalchemy.dialects.postgresql import ARRAY, JSON, UUID
 
-from database import Base
+from db.database import Base
 
 
 class Conversation(Base):
