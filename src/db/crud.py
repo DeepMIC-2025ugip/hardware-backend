@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.sql import and_
 
-from db.models import Analysis, Conversation
-from db.schemas import AnalysisCreate, ConversationCreate
+from db.models import Analysis, Character, Conversation
+from db.schemas import AnalysisCreate, CharacterCreate, ConversationCreate
 
 
 async def create_conversation(db: AsyncSession, conversation: ConversationCreate):
@@ -77,5 +77,61 @@ async def get_analyses_by_date_range(db: AsyncSession, start: date, end: date):
     """指定された年月日の範囲内で分析データを取得"""
     result = await db.execute(
         select(Analysis).where(and_(Analysis.date >= start, Analysis.date <= end))
+    )
+    return result.scalars().all()
+
+
+async def create_character(db: AsyncSession, character: CharacterCreate):
+    new_character = Character(
+        id=uuid.uuid4(),
+        personality=character.personality,
+        strengths=character.strengths,
+        weaknesses=character.weaknesses,
+        hobbies=character.hobbies,
+        family=character.family,
+        friends=character.friends,
+        school_life=character.school_life,
+        future_dream=character.future_dream,
+        likes=character.likes,
+        dislikes=character.dislikes,
+        stress=character.stress,
+        worries=character.worries,
+        favorite_food=character.favorite_food,
+        other=character.other,
+    )
+    db.add(new_character)
+    await db.commit()
+    await db.refresh(new_character)
+    return new_character
+
+
+async def get_all_characters(db: AsyncSession):
+    result = await db.execute(select(Character))
+    return result.scalars().all()
+
+
+async def get_latest_character(db: AsyncSession):
+    result = await db.execute(
+        select(Character).order_by(Character.timestamp.desc()).limit(1)
+    )
+    return result.scalars().first()
+
+
+async def delete_character(db: AsyncSession, character_id: uuid.UUID):
+    character = await db.get(Character, character_id)
+    if character:
+        await db.delete(character)
+        await db.commit()
+    return character
+
+
+async def get_characters_by_timestamp_range(
+    db: AsyncSession, start: datetime, end: datetime
+):
+    """指定された年月日時分秒の範囲内でキャラクターデータを取得"""
+    result = await db.execute(
+        select(Character).where(
+            and_(Character.timestamp >= start, Character.timestamp <= end)
+        )
     )
     return result.scalars().all()

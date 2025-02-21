@@ -1,26 +1,26 @@
 _isort_check:
-	uv run isort --check ./
+	PYTHONPATH=src uv run isort --check ./
 
 _black_check:
-	uv run black --check ./
+	PYTHONPATH=src uv run black --check ./
 
 _mypy:
-	uv run mypy ./
+	PYTHONPATH=src uv run mypy ./
 
 lint:
-	make -j _isort_check _black_check _mypy
+	PYTHONPATH=src make -j _isort_check _black_check _mypy
 
 _isort_apply:
-	uv run isort ./
+	PYTHONPATH=src uv run isort ./
 
 _black_apply:
-	uv run black ./
+	PYTHONPATH=src uv run black ./
 
 fmt:
-	make _isort_apply _black_apply
+	PYTHONPATH=src make _isort_apply _black_apply
 
 test:
-	uv run pytest
+	PYTHONPATH=src uv run pytest
 
 run:
 	./python
