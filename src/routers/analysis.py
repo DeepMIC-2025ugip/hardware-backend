@@ -35,5 +35,5 @@ async def delete_analysis(analysis_id: uuid.UUID, db: AsyncSession = Depends(get
 
 
 @analysis_router.post("/analyze_day", response_model=AnalysisResponse)
-async def analyze_today(day: date = datetime.now().date()):
+async def analyze_day_api(day: date = datetime.now().date()):
     return await analyze_day(day)

@@ -34,5 +34,5 @@ async def delete_character(character_id: uuid.UUID, db: AsyncSession = Depends(g
 
 
 @character_router.post("/analyze", response_model=CharacterResponse)
-async def analyze_character():
+async def analyze_character_api():
     return await analyze_character()
