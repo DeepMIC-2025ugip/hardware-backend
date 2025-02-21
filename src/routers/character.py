@@ -33,6 +33,6 @@ async def delete_character(character_id: uuid.UUID, db: AsyncSession = Depends(g
     return await crud.delete_character(db, character_id)
 
 
-@character_router.get("/analyze", response_model=CharacterResponse)
+@character_router.post("/analyze", response_model=CharacterResponse)
 async def analyze_character():
     return await analyze_character()
