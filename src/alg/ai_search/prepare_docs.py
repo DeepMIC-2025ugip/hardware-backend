@@ -1,4 +1,5 @@
 import os
+import uuid
 from glob import glob
 
 from langchain_community.docstore.document import Document
@@ -52,8 +53,13 @@ def create_doc_json(
 
         if docs:
             for doc in docs:
-                page = doc.metadata.get("page", -1) + 1
-                dict = {"title": name, "content": doc.page_content, "page": page}
+                page = doc.metadata.get("page", 0) + 1
+                dict = {
+                    "id": str(uuid.uuid1()),
+                    "title": name,
+                    "content": doc.page_content,
+                    "page": page,
+                }
 
                 documents.append(dict)
         else:
