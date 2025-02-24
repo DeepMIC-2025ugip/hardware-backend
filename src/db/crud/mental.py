@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import date
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -27,12 +27,10 @@ async def get_latest_mental(db: AsyncSession):
     return result.scalars().first()
 
 
-async def get_mentals_by_timestamp_range(
-    db: AsyncSession, start: datetime, end: datetime
-):
-    """指定された年月日時分秒の範囲内でメンタルデータを取得"""
+async def get_mentals_by_date_range(db: AsyncSession, start: date, end: date):
+    """指定された年月日の範囲内で分析データを取得"""
     result = await db.execute(
-        select(Mental).where(and_(Mental.timestamp >= start, Mental.timestamp <= end))
+        select(Mental).where(and_(Mental.date >= start, Mental.date <= end))
     )
     return result.scalars().all()
 

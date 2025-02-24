@@ -22,7 +22,7 @@ class Conversation(Base):
 
 
 class Analysis(Base):
-    __tablename__ = "analyses"
+    __tablename__ = "analysis"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     familyship = Column(String, nullable=False)  # 家族関係
@@ -31,11 +31,11 @@ class Analysis(Base):
     likes = Column(String, nullable=False)  # 好きなこと
     dislikes = Column(String, nullable=False)  # 嫌いなこと
 
-    timestamp = Column(DateTime, default=datetime.now, nullable=False)  # 更新日時
+    date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)
 
 
 class Mental(Base):
-    __tablename__ = "mental_health"
+    __tablename__ = "mental"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     friendship = Column(JSON, nullable=False)  # 友人関係
@@ -49,7 +49,7 @@ class Mental(Base):
     self_harm = Column(Boolean, nullable=False)  # 自傷行為
     insomnia = Column(Boolean, nullable=False)  # 不眠症
 
-    timestamp = Column(DateTime, default=datetime.now, nullable=False)  # 更新日時
+    date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)
 
 
 class Character(Base):
@@ -60,6 +60,4 @@ class Character(Base):
     strengths = Column(ARRAY(String), nullable=False)  # 子どもの強み
     weaknesses = Column(ARRAY(String), nullable=False)  # 子どもの弱み
     other = Column(String, nullable=False)  # その他
-    timestamp = Column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
-    )
+    date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)

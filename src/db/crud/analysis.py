@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -22,9 +23,7 @@ async def get_all_analyses(db: AsyncSession):
 
 
 async def get_latest_analysis(db: AsyncSession):
-    result = await db.execute(
-        select(Analysis).order_by(Analysis.timestamp.desc()).limit(1)
-    )
+    result = await db.execute(select(Analysis).order_by(Analysis.date.desc()).limit(1))
     return result.scalars().first()
 
 

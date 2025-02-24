@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Dict, List
 
 from pydantic import UUID4, BaseModel, ConfigDict
@@ -27,7 +27,7 @@ class AnalysisCreate(BaseModel):
 
 class AnalysisResponse(AnalysisCreate):
     id: UUID4
-    timestamp: datetime
+    date: date
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -47,7 +47,7 @@ class MentalCreate(BaseModel):
 
 class MentalResponse(MentalCreate):
     id: UUID4
-    timestamp: datetime
+    date: date
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -62,6 +62,6 @@ class CharacterCreate(BaseModel):
 
 class CharacterResponse(CharacterCreate):
     id: UUID4
-    timestamp: datetime
+    date: date
 
     model_config = ConfigDict(from_attributes=True)

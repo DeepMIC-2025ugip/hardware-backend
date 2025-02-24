@@ -4,12 +4,12 @@ from datetime import date, datetime
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import db.crud as crud
+import db.crud.analysis as crud
 from alg.analyze_day import analyze_day
 from db.database import get_db
 from db.schemas import AnalysisCreate, AnalysisResponse
 
-analysis_router = APIRouter(prefix="/analyses", tags=["Analyses"])
+analysis_router = APIRouter(prefix="/analysis", tags=["Analysis"])
 
 
 @analysis_router.post("/", response_model=AnalysisResponse)
@@ -34,6 +34,6 @@ async def delete_analysis(analysis_id: uuid.UUID, db: AsyncSession = Depends(get
     return await crud.delete_analysis(db, analysis_id)
 
 
-@analysis_router.post("/analyze_day", response_model=AnalysisResponse)
-async def analyze_day_api(day: date = datetime.now().date()):
-    return await analyze_day(day)
+# @analysis_router.post("/analyze_day", response_model=AnalysisResponse)
+# async def analyze_day_api(day: date = datetime.now().date()):
+#     return await analyze_day(day)
