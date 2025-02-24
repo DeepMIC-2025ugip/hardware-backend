@@ -5,7 +5,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import db.crud.analysis as crud
-from alg.analyze_day import analyze_day
+
+# from alg.analyze_day import analyze_day
 from db.database import get_db
 from db.schemas import AnalysisCreate, AnalysisResponse
 

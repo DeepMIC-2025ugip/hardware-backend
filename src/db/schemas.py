@@ -32,13 +32,20 @@ class AnalysisResponse(AnalysisCreate):
     model_config = ConfigDict(from_attributes=True)
 
 
+class MentalItem(BaseModel):
+    overall: str
+    challenge: str
+    advise: str
+    pint: str
+
+
 class MentalCreate(BaseModel):
-    friendship: Dict[str, str]
-    school: Dict[str, str]
-    behavior: Dict[str, str]
-    sociality: Dict[str, str]
-    cognitive_features: Dict[str, str]
-    stress_resistance: Dict[str, str]
+    friendship: MentalItem
+    school: MentalItem
+    behavior: MentalItem
+    sociality: MentalItem
+    cognitive_features: MentalItem
+    stress_resistance: MentalItem
     physical_symptoms: bool
     mental_symptoms: bool
     self_harm: bool

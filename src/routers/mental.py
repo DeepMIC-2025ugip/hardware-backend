@@ -5,7 +5,6 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import db.crud.mental as crud
-from alg.analyze_day import analyze_day
 from db.database import get_db
 from db.schemas import MentalCreate, MentalResponse
 
