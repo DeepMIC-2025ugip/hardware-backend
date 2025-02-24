@@ -1,13 +1,13 @@
 import asyncio
 from typing import Union
 
-from src.alg.analyze.format_conversation import format_all_conversation
 from alg.analyze.prompt.analyze_character_prompt import SYSTEM_PROMPT, USER_PROMPT
 from db.crud import create_character, get_all_conversations
 from db.database import get_db
 from db.models import Conversation
 from db.schemas import CharacterCreate
 from schema.character import CharacterModel
+from src.alg.analyze.format_conversation import format_all_conversation
 from utils.openai_call import llm_response_schema
 
 

@@ -2,13 +2,13 @@ import asyncio
 from datetime import date, datetime
 from typing import Union
 
-from src.alg.analyze.format_conversation import format_conversation
 from alg.analyze.prompt.analyze_day_prompt import SYSTEM_PROMPT, USER_PROMPT
 from db.crud import create_analysis, get_conversations_by_timestamp_range
 from db.database import get_db
 from db.models import Analysis, Conversation
 from db.schemas import AnalysisCreate
 from schema.analysis import AnalysisModel
+from src.alg.analyze.format_conversation import format_conversation
 from utils.get_day_timestamp_start_n_end import get_day_timestamp_start_n_end
 from utils.openai_call import llm_response_schema
 
