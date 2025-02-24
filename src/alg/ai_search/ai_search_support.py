@@ -153,8 +153,7 @@ def create_index_documents(
             content_embeddings = generate_embeddings(content, embedding_model)
             document["contentVector"] = content_embeddings
         if i % 100 == 0:
-            with open(save_path, "w") as f:
-                json.dump(documents, f, ensure_ascii=False, indent=4)
+            save_json_list(documents, save_path)
 
     save_json_list(documents, save_path)
 
@@ -175,7 +174,10 @@ def upload_documents(index_name: str, doc_path: str, batch_size: int = 100):
     documents = load_json(doc_path)
 
     for i in range(0, len(documents), batch_size):
-        search_client.upload_documents(documents=documents[i : i + batch_size])
+        docs = documents[i : i + batch_size]
+        for doc in docs:
+            doc["page"] = str(doc["page"])
+        search_client.upload_documents(documents=docs)
         print(f"Uploaded until {i+batch_size}/{len(documents)}")
 
 
@@ -224,9 +226,9 @@ def hybrid_search(
     for result in results:
         result_dict.append(
             {
-                "title": result.title,
-                "content": result.content,
-                "page": result.page,
+                "title": result["title"],
+                "content": result["content"],
+                "page": result["page"],
             }
         )
-    return results
+    return result_dict
