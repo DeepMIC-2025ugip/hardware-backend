@@ -23,6 +23,11 @@ async def get_analyses(db: AsyncSession = Depends(get_db)):
     return await crud.get_all_analyses(db)
 
 
+@analysis_router.get("/latest", response_model=AnalysisResponse)
+async def get_latest_character(db: AsyncSession = Depends(get_db)):
+    return await crud.get_latest_analysis(db)
+
+
 @analysis_router.get("/range", response_model=list[AnalysisResponse])
 async def get_analyses_by_date_range(
     start: date, end: date, db: AsyncSession = Depends(get_db)

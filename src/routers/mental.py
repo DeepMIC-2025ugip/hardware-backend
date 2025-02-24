@@ -21,6 +21,11 @@ async def get_all_mentals(db: AsyncSession = Depends(get_db)):
     return await crud.get_all_mentals(db)
 
 
+@mental_router.get("/latest", response_model=MentalResponse)
+async def get_latest_character(db: AsyncSession = Depends(get_db)):
+    return await crud.get_latest_mental(db)
+
+
 @mental_router.get("/range", response_model=list[MentalResponse])
 async def get_mentals_by_date_range(
     start: date, end: date, db: AsyncSession = Depends(get_db)
