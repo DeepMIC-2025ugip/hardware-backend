@@ -11,9 +11,15 @@ from utils.openai_call import llm_response
 async def get_analyses() -> tuple:
     async for db in get_db():
         conversations = await get_all_conversations(db)
+
         character = await get_latest_character(db)
+        character = character.to_dict() if character else None
+
         analysis = await get_latest_analysis(db)
+        analysis = analysis.to_dict() if analysis else None
+
         mental = await get_latest_mental(db)
+        mental = mental.to_dict() if mental else None
         break
     return conversations, character, analysis, mental
 

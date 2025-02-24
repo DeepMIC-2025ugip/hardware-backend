@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, class_mapper, sessionmaker
 
 # from db.settings import settings
 
@@ -29,7 +29,11 @@ AsyncSessionLocal = sessionmaker(
 
 
 class Base(DeclarativeBase):
-    pass
+    def to_dict(self):
+        return {
+            column.key: getattr(self, column.key)
+            for column in class_mapper(self.__class__).mapped_table.columns
+        }
 
 
 async def get_db():
