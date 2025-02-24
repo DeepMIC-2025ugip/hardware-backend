@@ -24,7 +24,7 @@ async def get_all_characters(db: AsyncSession):
 
 async def get_latest_character(db: AsyncSession):
     result = await db.execute(
-        select(Character).order_by(Character.timestamp.desc()).limit(1)
+        select(Character).order_by(Character.date.desc()).limit(1)
     )
     return result.scalars().first()
 

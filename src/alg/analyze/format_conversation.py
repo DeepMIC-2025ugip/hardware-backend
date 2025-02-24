@@ -2,7 +2,7 @@ from db.models import Conversation
 
 
 def format_chat(chat: Conversation) -> str:
-    speaker = "AI" if chat.from_system else "Child"
+    speaker = "ぬいぐるみ" if chat.from_system else "こども"
     content = chat.content
     return f"{speaker}: {content}\n"
 

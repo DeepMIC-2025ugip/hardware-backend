@@ -23,7 +23,7 @@ async def get_all_mentals(db: AsyncSession):
 
 
 async def get_latest_mental(db: AsyncSession):
-    result = await db.execute(select(Mental).order_by(Mental.timestamp.desc()).limit(1))
+    result = await db.execute(select(Mental).order_by(Mental.date.desc()).limit(1))
     return result.scalars().first()
 
 

@@ -2,7 +2,8 @@ import asyncio
 from typing import Union
 
 from alg.analyze.prompt.analyze_character_prompt import SYSTEM_PROMPT, USER_PROMPT
-from db.crud import create_character, get_all_conversations
+from db.crud.character import create_character
+from db.crud.conversation import get_all_conversations
 from db.database import get_db
 from db.models import Conversation
 from db.schemas import CharacterCreate
@@ -25,7 +26,7 @@ async def analyze_character() -> Union[CharacterCreate, None]:
 
     character_result = llm_response_schema(
         SYSTEM_PROMPT,
-        USER_PROMPT.format(all_conversation=conversation_str),
+        USER_PROMPT.format(conversation=conversation_str),
         CharacterModel,
     )
     print(character_result)

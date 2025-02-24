@@ -1,10 +1,11 @@
 import uuid
-from datetime import date, datetime
+from datetime import date
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import db.crud.mental as crud
+from alg.analyze.mental import analyze_mental
 from db.database import get_db
 from db.schemas import MentalCreate, MentalResponse
 
@@ -36,3 +37,8 @@ async def get_mentals_by_date_range(
 @mental_router.delete("/{mental_id}")
 async def delete_mental(mental_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
     return await crud.delete_mental(db, mental_id)
+
+
+@mental_router.post("/analyze_mental", response_model=MentalResponse)
+async def analyze_mental_api():
+    return await analyze_mental()

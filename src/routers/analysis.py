@@ -5,8 +5,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import db.crud.analysis as crud
-
-# from alg.analyze_day import analyze_day
+from alg.analyze.analysis import analyze_life
 from db.database import get_db
 from db.schemas import AnalysisCreate, AnalysisResponse
 
@@ -40,6 +39,6 @@ async def delete_analysis(analysis_id: uuid.UUID, db: AsyncSession = Depends(get
     return await crud.delete_analysis(db, analysis_id)
 
 
-# @analysis_router.post("/analyze_day", response_model=AnalysisResponse)
-# async def analyze_day_api(day: date = datetime.now().date()):
-#     return await analyze_day(day)
+@analysis_router.post("/analyze_life", response_model=AnalysisResponse)
+async def analyze_life_api():
+    return await analyze_life()

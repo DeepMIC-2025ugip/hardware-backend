@@ -1,7 +1,9 @@
 from datetime import date, datetime
-from typing import Dict, List
+from typing import List
 
 from pydantic import UUID4, BaseModel, ConfigDict
+
+from schema.mental import MentalItem
 
 
 class ConversationCreate(BaseModel):
@@ -30,13 +32,6 @@ class AnalysisResponse(AnalysisCreate):
     date: date
 
     model_config = ConfigDict(from_attributes=True)
-
-
-class MentalItem(BaseModel):
-    overall: str
-    challenge: str
-    advise: str
-    pint: str
 
 
 class MentalCreate(BaseModel):
