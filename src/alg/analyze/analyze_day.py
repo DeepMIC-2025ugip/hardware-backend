@@ -2,8 +2,8 @@ import asyncio
 from datetime import date, datetime
 from typing import Union
 
-from alg.format_conversation import format_conversation
-from alg.prompt.analyze_day_prompt import SYSTEM_PROMPT, USER_PROMPT
+from src.alg.analyze.format_conversation import format_conversation
+from alg.analyze.prompt.analyze_day_prompt import SYSTEM_PROMPT, USER_PROMPT
 from db.crud import create_analysis, get_conversations_by_timestamp_range
 from db.database import get_db
 from db.models import Analysis, Conversation
