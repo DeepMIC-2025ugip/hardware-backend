@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 from typing import Dict, List
 
 from pydantic import UUID4, BaseModel, ConfigDict
@@ -18,14 +18,36 @@ class ConversationResponse(ConversationCreate):
 
 
 class AnalysisCreate(BaseModel):
-    report: str
-    keyword: List[str]
-    feelings: Dict[str, int]
+    familyship: str
+    friendship: str
+    school_life: str
+    likes: str
+    dislikes: str
 
 
 class AnalysisResponse(AnalysisCreate):
     id: UUID4
-    date: date
+    timestamp: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class MentalCreate(BaseModel):
+    friendship: Dict[str, str]
+    school: Dict[str, str]
+    behavior: Dict[str, str]
+    sociality: Dict[str, str]
+    cognitive_features: Dict[str, str]
+    stress_resistance: Dict[str, str]
+    physical_symptoms: bool
+    mental_symptoms: bool
+    self_harm: bool
+    insomnia: bool
+
+
+class MentalResponse(MentalCreate):
+    id: UUID4
+    timestamp: datetime
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -35,16 +57,6 @@ class CharacterCreate(BaseModel):
     personality: str
     strengths: List[str]
     weaknesses: List[str]
-    hobbies: List[str]
-    family: str
-    friends: List[str]
-    school_life: str
-    future_dream: str
-    likes: List[str]
-    dislikes: List[str]
-    stress: str
-    worries: str
-    favorite_food: List[str]
     other: str
 
 
