@@ -1,16 +1,9 @@
 from pydantic import BaseModel, Field
 
 
-class Feelings(BaseModel):
-    happy: int = Field(..., description="幸せ度合い．1~5で5が最大")
-    angry: int = Field(..., description="怒り度合い．1~5で5が最大")
-    sad: int = Field(..., description="悲しみ度合い．1~5で5が最大")
-    relaxed: int = Field(..., description="リラックス度合い．1~5で5が最大")
-    surprised: int = Field(..., description="驚き度合い．1~5で5が最大")
-    anxiety: int = Field(..., description="不安度合い．1~5で5が最大")
-
-
 class AnalysisModel(BaseModel):
-    report: str = Field(..., description="今日の出来事．300文字程度")
-    keywords: list[str] = Field(..., description="今日の会話で出てきたキーワード10個")
-    feelings: Feelings
+    familyship: str = Field(..., description="家族関係．1人1人に対して具体的に")
+    friendship: str = Field(..., description="友人関係．1人1人に対して具体的に")
+    school_life: str = Field(..., description="学校生活．具体的な言葉で説明")
+    likes: str = Field(..., description="好きなもの一覧")
+    dislikes: str = Field(..., description="嫌いなもの一覧")

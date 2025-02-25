@@ -13,6 +13,7 @@ def llm_response(
     user_prompt: str,
     modelname: str = "gpt-4o-mini",
     json_format: bool = False,
+    stream: bool = False,
     print_response: bool = False,
 ) -> str:
     messages = [
@@ -24,14 +25,24 @@ def llm_response(
         model=modelname,
         messages=messages,
         response_format={"type": "json_object" if json_format else "text"},
+        stream=stream,
         temperature=0.7,
         top_p=0.95,
         timeout=100,
     )
 
-    if print_response:
+    if stream:
+        response_text = ""
+        for chunk in response:
+            content = chunk.choices[0].delta.content  # type: ignore
+            if type(content) == str:
+                response_text += content
+                if print_response:
+                    print(content, end="", flush=True)
+                # yield content
+        return response_text
+    elif print_response:
         print(response.choices[0].message.content)
-
     return response.choices[0].message.content
 
 

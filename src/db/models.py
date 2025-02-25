@@ -22,12 +22,33 @@ class Conversation(Base):
 
 
 class Analysis(Base):
-    __tablename__ = "analyses"
+    __tablename__ = "analysis"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    report = Column(Text, nullable=False)  # 1日の会話からのAI分析レポート
-    keyword = Column(ARRAY(String), nullable=False)  # 1日の会話で出たキーワードのリスト
-    feelings = Column(JSON, nullable=False)  # 喜怒哀楽の感情スコア (dict[str, int])
+    familyship = Column(String, nullable=False)  # 家族関係
+    friendship = Column(String, nullable=False)  # 友人関係
+    school_life = Column(String, nullable=False)  # 学校生活
+    likes = Column(String, nullable=False)  # 好きなこと
+    dislikes = Column(String, nullable=False)  # 嫌いなこと
+
+    date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)
+
+
+class Mental(Base):
+    __tablename__ = "mental"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    friendship = Column(JSON, nullable=False)  # 友人関係
+    school = Column(JSON, nullable=False)  # 学校
+    behavior = Column(JSON, nullable=False)  # 行為
+    sociality = Column(JSON, nullable=False)  # 向社会性
+    cognitive_features = Column(JSON, nullable=False)  # 認知的特徴
+    stress_resistance = Column(JSON, nullable=False)  # ストレス耐性
+    physical_symptoms = Column(Boolean, nullable=False)  # 体の症状
+    mental_symptoms = Column(Boolean, nullable=False)  # 精神症状
+    self_harm = Column(Boolean, nullable=False)  # 自傷行為
+    insomnia = Column(Boolean, nullable=False)  # 不眠症
+
     date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)
 
 
@@ -38,19 +59,5 @@ class Character(Base):
     personality = Column(String, nullable=False)  # 子どもの性格
     strengths = Column(ARRAY(String), nullable=False)  # 子どもの強み
     weaknesses = Column(ARRAY(String), nullable=False)  # 子どもの弱み
-    hobbies = Column(ARRAY(String), nullable=False)  # 子どもの趣味
-    family = Column(String, nullable=False)  # 家族との関係
-    friends = Column(ARRAY(String), nullable=False)  # 友達との関係
-    school_life = Column(String, nullable=False)  # 学校生活
-    future_dream = Column(String, nullable=False)  # 将来の夢
-    likes = Column(ARRAY(String), nullable=False)  # 好きなこと
-    dislikes = Column(ARRAY(String), nullable=False)  # 嫌いなこと
-    stress = Column(String, nullable=False)  # ストレス要因
-    worries = Column(String, nullable=False)  # 悩み事
-    favorite_food = Column(
-        ARRAY(String), nullable=False
-    )  # 好きな食べ物・スポーツ・本・音楽・テレビ番組・映画
     other = Column(String, nullable=False)  # その他
-    timestamp = Column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
-    )
+    date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)

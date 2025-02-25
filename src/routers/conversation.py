@@ -4,7 +4,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import db.crud as crud
+import db.crud.conversation as crud
 from db.database import get_db
 from db.schemas import ConversationCreate, ConversationResponse
 
