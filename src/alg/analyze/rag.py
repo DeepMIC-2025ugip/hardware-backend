@@ -1,3 +1,4 @@
+import asyncio
 from typing import AsyncGenerator
 
 from alg.ai_search.ai_search_support import hybrid_search
@@ -7,7 +8,7 @@ from db.crud.character import get_latest_character
 from db.crud.conversation import get_all_conversations
 from db.crud.mental import get_latest_mental
 from db.database import get_db
-from utils.openai_call import llm_response
+from utils.openai_call import llm_response_stream
 
 
 async def get_analyses() -> tuple:
@@ -45,4 +46,6 @@ async def analysis_qa(question: str, top: int) -> AsyncGenerator[str, None]:
     related_docs = hybrid_search(index_name, question, top=top)
 
     user_prompt = await get_user_prompt(question, related_docs, get_analyses)
-    yield llm_response(SYSTEM_PROMPT, user_prompt, print_response=True)
+    for chunk in llm_response_stream(SYSTEM_PROMPT, user_prompt, print_response=True):
+        yield chunk
+        await asyncio.sleep(0)

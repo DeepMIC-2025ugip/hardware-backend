@@ -59,7 +59,7 @@ def llm_response_stream(
         content = chunk.choices[0].delta.content  # type: ignore
         if type(content) == str:
             if print_response:
-                print(content)
+                print(content, end="", flush=True)
             yield content
 
 
