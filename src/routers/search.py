@@ -17,6 +17,6 @@ def hybrid_search_api(
 
 
 @search_router.post("/rag")
-async def rag_api(question: str = Body(...), top: int = Body(4)) -> str:
+async def rag_api(question: str = Body(...), top: int = Body(2)) -> str:
     response = await analysis_qa(question, top=top)
     return response
