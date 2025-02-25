@@ -3,6 +3,7 @@ from typing import List
 
 from pydantic import UUID4, BaseModel, ConfigDict
 
+from schema.analysis import SubjectRates
 from schema.mental import MentalItem
 
 
@@ -25,6 +26,7 @@ class AnalysisCreate(BaseModel):
     school_life: str
     likes: str
     dislikes: str
+    conversation_rates: SubjectRates
 
 
 class AnalysisResponse(AnalysisCreate):
