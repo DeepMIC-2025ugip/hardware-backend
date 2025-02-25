@@ -1,3 +1,5 @@
+from typing import AsyncGenerator
+
 from alg.ai_search.ai_search_support import hybrid_search
 from alg.analyze.prompt.rag_prompt import SYSTEM_PROMPT, USER_PROMPT
 from db.crud.analysis import get_latest_analysis
@@ -38,12 +40,9 @@ async def get_user_prompt(
     return user_prompt
 
 
-async def analysis_qa(question: str, top: int) -> str:
+async def analysis_qa(question: str, top: int) -> AsyncGenerator[str, None]:
     index_name = "nuigurumi_therapy"
     related_docs = hybrid_search(index_name, question, top=top)
 
     user_prompt = await get_user_prompt(question, related_docs, get_analyses)
-    print(user_prompt)
-    answer = llm_response(SYSTEM_PROMPT, user_prompt, stream=True, print_response=True)
-    print(answer)
-    return answer
+    yield llm_response(SYSTEM_PROMPT, user_prompt, print_response=True)

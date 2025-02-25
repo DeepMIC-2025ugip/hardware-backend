@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body
+from starlette.responses import StreamingResponse
 
 from alg.ai_search.ai_search_support import hybrid_search
 from alg.analyze.rag import analysis_qa
@@ -17,6 +18,6 @@ def hybrid_search_api(
 
 
 @search_router.post("/rag")
-async def rag_api(question: str = Body(...), top: int = Body(2)) -> str:
+async def rag_api(question: str = Body(...), top: int = Body(2)) -> StreamingResponse:
     response = await analysis_qa(question, top=top)
-    return response
+    return StreamingResponse(response, media_type="text/event-stream")

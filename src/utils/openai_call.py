@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Generator, Type
 
 from openai import OpenAI
 from pydantic import BaseModel
@@ -13,7 +13,6 @@ def llm_response(
     user_prompt: str,
     modelname: str = "gpt-4o-mini",
     json_format: bool = False,
-    stream: bool = False,
     print_response: bool = False,
 ) -> str:
     messages = [
@@ -25,25 +24,43 @@ def llm_response(
         model=modelname,
         messages=messages,
         response_format={"type": "json_object" if json_format else "text"},
-        stream=stream,
         temperature=0.7,
         top_p=0.95,
         timeout=100,
     )
 
-    if stream:
-        response_text = ""
-        for chunk in response:
-            content = chunk.choices[0].delta.content  # type: ignore
-            if type(content) == str:
-                response_text += content
-                if print_response:
-                    print(content, end="", flush=True)
-                # yield content
-        return response_text
-    elif print_response:
+    if print_response:
         print(response.choices[0].message.content)
     return response.choices[0].message.content
+
+
+def llm_response_stream(
+    system_prompt: str,
+    user_prompt: str,
+    modelname: str = "gpt-4o-mini",
+    print_response: bool = False,
+) -> Generator[str, None, None]:
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+    response = client.chat.completions.create(
+        model=modelname,
+        messages=messages,  # type: ignore
+        temperature=0.7,
+        max_tokens=2000,
+        top_p=0.95,
+        stream=True,
+        timeout=100,
+    )
+
+    for chunk in response:
+        content = chunk.choices[0].delta.content  # type: ignore
+        if type(content) == str:
+            if print_response:
+                print(content)
+            yield content
 
 
 def llm_response_schema(
