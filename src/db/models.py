@@ -1,7 +1,7 @@
 import uuid
 from datetime import date, datetime, timezone
 
-from sqlalchemy import Boolean, Column, Date, DateTime, String, Text
+from sqlalchemy import Boolean, Column, Date, DateTime, String
 from sqlalchemy.dialects.postgresql import ARRAY, JSON, UUID
 
 from db.database import Base
@@ -30,6 +30,7 @@ class Analysis(Base):
     school_life = Column(String, nullable=False)  # 学校生活
     likes = Column(String, nullable=False)  # 好きなこと
     dislikes = Column(String, nullable=False)  # 嫌いなこと
+    conversation_rates = Column(JSON, nullable=False)  # 会話の割合
 
     date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)
 
