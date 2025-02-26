@@ -68,5 +68,5 @@ class WordCloud(Base):
     __tablename__ = "word_clouds"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    words = Column(ARRAY(String), nullable=False)  # 単語のリスト
+    words = Column(JSON, nullable=False)  # 単語のリスト
     date = Column(Date, default=date.today, nullable=False)  # その日の日付 (YYYY-MM-DD)

@@ -43,6 +43,6 @@ async def delete_word_cloud(
     return await crud.delete_word_cloud(db, word_cloud_id)
 
 
-@word_cloud_router.post("/analyze_life", response_model=WordCloudResponse)
+@word_cloud_router.post("/analyze_word_cloud", response_model=WordCloudResponse)
 async def analyze_life_api():
     return await analyze_word_cloud()
