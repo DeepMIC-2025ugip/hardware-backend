@@ -19,4 +19,6 @@ def hybrid_search_api(
 
 @search_router.post("/rag")
 async def rag_api(question: str = Body(...), top: int = Body(2)) -> StreamingResponse:
-    return StreamingResponse(analysis_qa(question, top=top), media_type="text/event-stream")
+    return StreamingResponse(
+        analysis_qa(question, top=top), media_type="text/event-stream"
+    )
