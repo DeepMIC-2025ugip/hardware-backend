@@ -5,6 +5,7 @@ from pydantic import UUID4, BaseModel, ConfigDict
 
 from schema.analysis import SubjectRates
 from schema.mental import MentalItem
+from schema.word_cloud import WordItem
 
 
 class ConversationCreate(BaseModel):
@@ -65,6 +66,17 @@ class CharacterCreate(BaseModel):
 
 
 class CharacterResponse(CharacterCreate):
+    id: UUID4
+    date: date
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class WordCloudCreate(BaseModel):
+    words: list[WordItem]
+
+
+class WordCloudResponse(WordCloudCreate):
     id: UUID4
     date: date
 

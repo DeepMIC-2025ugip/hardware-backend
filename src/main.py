@@ -6,6 +6,7 @@ from routers.character import character_router
 from routers.conversation import conversation_router
 from routers.mental import mental_router
 from routers.search import search_router
+from routers.word_cloud import word_cloud_router
 
 app = FastAPI()
 
@@ -14,6 +15,7 @@ app.include_router(analysis_router)
 app.include_router(character_router)
 app.include_router(mental_router)
 app.include_router(search_router)
+app.include_router(word_cloud_router)
 
 
 @app.get("/")

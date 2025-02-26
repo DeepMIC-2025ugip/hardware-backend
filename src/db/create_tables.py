@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
 
 from db.database import engine
-from db.models import Analysis, Character, Conversation, Mental
+from db.models import Analysis, Character, Conversation, Mental, WordCloud
 
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
@@ -15,6 +15,7 @@ async def create_tables():
         await conn.run_sync(Analysis.metadata.create_all)
         await conn.run_sync(Mental.metadata.create_all)
         await conn.run_sync(Character.metadata.create_all)
+        await conn.run_sync(WordCloud.metadata.create_all)
 
 
 if __name__ == "__main__":
